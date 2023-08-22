@@ -1,22 +1,14 @@
 import pygame
+from cannon import Cannon
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((400, 720))
 clock = pygame.time.Clock()
 running = True
 dt = 0
 
-player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
-
-cannon_base = pygame.image.load('cannon_base.png').convert_alpha()
-cannon_base = pygame.transform.scale(cannon_base, (100,100))
-i = 0
-j = 0
-clock_wise = False
-
-def render_cannon(display, rotation, pos):
-    rotated = pygame.transform.rotate(cannon_base, rotation)
-    screen.blit(rotated, (rotated.get_width() // 2 - pos[0], rotated.get_height() // 2 - pos[1]))
+player_1 = Cannon((screen.get_width() // 2, screen.get_height() - 100),
+                  1, 2 )
 
 while running:
     # poll for events
@@ -28,29 +20,11 @@ while running:
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("purple")
 
-    if clock_wise:
-        if i > -45:
-            i-=1
-        else:
-            clock_wise = False
-
-    else:
-        if i < 45:
-            i+=1
-        else:
-            clock_wise = True
-
-    render_cannon(screen, i, (100,100))
+    player_1.render(screen)
 
     keys = pygame.key.get_pressed()
-    if keys[pygame.K_w]:
-        player_pos.y -= 300 * dt
-    if keys[pygame.K_s]:
-        player_pos.y += 300 * dt
-    if keys[pygame.K_a]:
-        player_pos.x -= 300 * dt
-    if keys[pygame.K_d]:
-        player_pos.x += 300 * dt
+    if keys[pygame.K_ESCAPE]:
+        running = False
 
     # flip() the display to put your work on screen
     pygame.display.flip()
