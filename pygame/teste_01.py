@@ -7,8 +7,8 @@ clock = pygame.time.Clock()
 running = True
 dt = 0
 
-player_1 = Cannon((screen.get_width() // 2, screen.get_height() - 100),
-                  1, 2 )
+player_1 = Cannon( 1, 1 )
+player_2 = Cannon( 2, 1 )
 
 while running:
     # poll for events
@@ -21,10 +21,14 @@ while running:
     screen.fill("purple")
 
     player_1.render(screen)
+    player_2.render(screen)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         running = False
+    if keys[pygame.K_f]:
+        player_1.fire()
+        player_2.fire()
 
     # flip() the display to put your work on screen
     pygame.display.flip()
