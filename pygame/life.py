@@ -1,7 +1,7 @@
 import pygame
 
 
-class Life:
+class HorizontalStatusBar:
     def __init__(self, divisions, size):
         self.value = 100
         self.size = size
@@ -12,8 +12,8 @@ class Life:
         self.value = value
 
 
-    def render(self, surface, position):
+    def render(self, surface, position ):
         pygame.draw.rect(surface=surface, 
-                         color = (0, 0, 255), 
-                         rect=(position[0],position[1], self.size[0], self.size[1]),
-                          border_radius = 1 )
+                         color = (0, 255, 0), 
+                         rect=(position[0], position[1], self.size[0], self.size[1]),
+                         border_radius = 1 )

@@ -17,14 +17,17 @@ class Cannon:
         self.cannon_retraction = 0
         self.player_number = player_number
         self.clockwise = random.choice([True, False])
-        self.life = Life( divisions=15, size=( 15, 100 ) )
         self.angle = random.uniform(-self.max_angle, self.max_angle)
         
         self.cannon_image = pygame.image.load(f'player_{player_number}//cannon.png').convert_alpha()
         self.cannon_image = pygame.transform.scale( self.cannon_image, 
                                                     (self.cannon_image.get_width() * scale,
-                                                        self.cannon_image.get_height() * scale ))
+                                                     self.cannon_image.get_height() * scale ))
         
+        self.life = Life(divisions=15, 
+                         size=( self.cannon_image.get_width(),
+                                self.cannon_image.get_height() * 0.05 ) )
+
         self.base = pygame.image.load(f'player_{player_number}//cannon_base.png').convert_alpha()
         self.base = pygame.transform.scale( self.base, 
                                             (self.base.get_width() * scale,
@@ -59,7 +62,12 @@ class Cannon:
         rotated = pygame.transform.rotate(self.base, self.angle + self.direction)
         screen.blit(rotated, (self.position[0] - rotated.get_width() // 2, self.position[1] - rotated.get_height() // 2))
 
-        self.life.render( position=(10,10), surface=screen )
+        if self.player_number == 1:
+            self.life.render( surface=screen, position=(self.position[0]-self.cannon_image.get_width()//2, 
+                                                        self.position[1]-self.cannon_image.get_height()//2 ))
+        else:
+            self.life.render( surface=screen, position=(self.position[0]-self.cannon_image.get_width()//2, 
+                                                        self.position[1]+self.cannon_image.get_height()//2 ))
 
         if self.clockwise:
             if self.angle > -self.max_angle:

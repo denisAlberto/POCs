@@ -30,6 +30,7 @@ while running:
         player_1.fire()
         player_2.fire()
 
+
     # flip() the display to put your work on screen
     pygame.display.flip()
 
