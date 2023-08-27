@@ -10,33 +10,47 @@ dt = 0
 player_1 = Cannon( 1, 1 )
 player_2 = Cannon( 2, 1 )
 
+balls_p1 = []
+balls_p2 = []
+
 while running:
-    # poll for events
-    # pygame.QUIT event means the user clicked X to close your window
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
-    # fill the screen with a color to wipe away anything from last frame
-    screen.fill("purple")
-
-    player_1.render(screen)
-    player_2.render(screen)
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_ESCAPE]:
         running = False
     if keys[pygame.K_f]:
-        player_1.fire()
-        player_2.fire()
+        balls_p1.append( player_1.fire() )
+        balls_p2.append( player_2.fire() )
+
+    screen.fill("black")
+
+    player_1.render(screen)
+    player_2.render(screen)
+
+    for i, c in enumerate(balls_p1):
+        c.render(screen)
+        player_2.check_colision(c)
+        
+    balls_p1 = [c for c in balls_p1 if not c.can_destroy()]
+
+    for i, c in enumerate(balls_p2):
+        c.render(screen)
+        player_1.check_colision(c)
+
+    balls_p2 = [c for c in balls_p2 if not c.can_destroy()]
+
+    if len(balls_p1)>0:
+        print(f'p1 {len(balls_p1)}')
+    
+    if len(balls_p2)>0:
+        print(f'p2 {len(balls_p2)}')
 
 
-    # flip() the display to put your work on screen
     pygame.display.flip()
-
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
     dt = clock.tick(60) / 1000
 
 pygame.quit()
